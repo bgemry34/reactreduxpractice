@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import {connect} from 'react-redux'
+import {useDispatch} from 'react-redux'
 import {createPost} from '../redux/actions/postActions'
 
 const Postform = props => {
+    const dispatch = useDispatch()
     const [form, setForm] = useState({
         body:'',
         title:''
@@ -21,7 +22,7 @@ const Postform = props => {
         }
 
         //Call Action
-        props.createPost(post)
+        dispatch(createPost(post))
     }
 
     return (
@@ -46,4 +47,4 @@ const Postform = props => {
 
 
 
-export default connect(null, {createPost})(Postform)
+export default Postform

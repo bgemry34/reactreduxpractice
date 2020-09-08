@@ -1,15 +1,20 @@
-import React, { useEffect } from 'react'
-import {connect} from 'react-redux'
+import React, { useEffect, useCallback } from 'react'
+import {useSelector, shallowEqual, useDispatch} from 'react-redux'
 import {fetchPosts} from '../redux/actions/postActions'
 
-const Posts = (props) =>{
-    const {fetchPosts, posts} = props;
+const Posts = (prps) =>{
+    const dispatch = useDispatch();
 
+    const {posts} = useSelector(state=>({
+        posts: state.posts.items,
+    }), shallowEqual);
 
+    const initPosts = useCallback(()=>dispatch(fetchPosts()),[dispatch])
 
     useEffect(()=>{
-        fetchPosts();
-    },[fetchPosts])
+        initPosts();
+        console.log('test')
+    },[initPosts])
 
     const postItems = posts.map(post=>(
         <div key={post.id}>
@@ -26,8 +31,4 @@ const Posts = (props) =>{
     )
 }
 
-const mapStateToProps = state => ({
-    posts: state.posts.items,
-})
-
-export default connect(mapStateToProps, {fetchPosts})(Posts)
+export default Posts
